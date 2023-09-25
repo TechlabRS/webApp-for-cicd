@@ -1,0 +1,21 @@
+---
+- hosts: web
+  become: yes
+  tasks:
+    - name: Copy Node.js application files
+      copy:
+        src: /path/to/your/app
+        dest: /var/www/my-node-app
+      become: yes
+
+    - name: Install Node.js dependencies
+      command: npm install
+      args:
+        chdir: /var/www/my-node-app
+      become: yes
+
+    - name: Start Node.js application
+      command: npm start
+      args:
+        chdir: /var/www/my-node-app
+      become: yes
