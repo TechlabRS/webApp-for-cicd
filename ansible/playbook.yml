@@ -4,7 +4,7 @@
   tasks:
     - name: Copy Node.js application files
       copy:
-        src: /app
+        src: ./webApp-for-cicd
         dest: /var/www/webApp-for-cicd
       become: yes
 
