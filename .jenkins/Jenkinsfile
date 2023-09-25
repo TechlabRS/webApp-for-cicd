@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    triggers {
+        githubPush()
+        githubTag(regex: ".*")
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build and Test') {
+            steps {
+                sh 'npm install'
+                sh 'npm test'
+            }
+        }
+
+        stage('Deploy to Server') {
+            steps {
+                ansiblePlaybook(
+                    playbook: 'ansible/playbook.yml',
+                    inventory: 'ansible/hosts.ini',
+                    credentialsId: 'ansible-ssh-credentials'
+                )
+            }
+        }
+    }
+}
